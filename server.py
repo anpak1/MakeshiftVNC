@@ -19,11 +19,12 @@ class ScreenshotRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         elif path == "/screen.png":
             screenshot = tempfile.NamedTemporaryFile()
             filename = screenshot.name
+            filename_thumb = "{}-thumb.png".format(screenshot.name)
             screenshot.close()
-            os.system("/usr/sbin/screencapture -x -t png {}".format(filename))
+            os.system("DISPLAY=:0 /usr/bin/scrot -t 20 {}".format(filename))
             self.send_response(200)
             self.send_header("Content-type", "image/png")
-            with open(filename, "rb") as f:
+            with open(filename_thumb, "rb") as f:
                 contents = f.read()
                 self.send_header("Content-length", len(contents))
                 self.end_headers()
