@@ -30,6 +30,7 @@ class ScreenshotRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(contents)
             os.remove(filename)
+            os.remove(filename_thumb)
         else:
             self.send_response(404)
 
